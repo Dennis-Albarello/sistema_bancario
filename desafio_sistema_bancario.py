@@ -1,4 +1,7 @@
-## Desafio de Projeto Sistema Bancário
+## Desafio de Projeto Sistema Bancário ##
+
+
+# Definindo as variáveis
 
 menu = """
 ######################################
@@ -15,8 +18,6 @@ menu = """
 ######################################
 → """
 
-# Definindo as variáveis
-
 saldo = 0
 limite = 500
 extrato = """
@@ -27,6 +28,7 @@ numero_saques = 1
 LIMITE_SAQUES = 3
 deposito = 0
 saque = 0
+
 
 # Desenvolvimento da Inteligência Operacional do Sistema
 
