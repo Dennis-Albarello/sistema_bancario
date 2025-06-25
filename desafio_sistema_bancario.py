@@ -1,6 +1,5 @@
 ## Desafio de Projeto Sistema Bancário ##
 
-
 # Definindo as variáveis
 
 menu = """
@@ -85,7 +84,3 @@ while True:
     
     else:
         print("Opção não disponível. Favor inserir com uma opção válida!")
-
-
-
-
