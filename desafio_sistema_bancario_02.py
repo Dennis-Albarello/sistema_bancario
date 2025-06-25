@@ -38,6 +38,11 @@ def depositar( deposito , saldo , extrato ,/):
 
 def sacar( *, saque, saldo, extrato, limite, numero_saques, num_limite_saque ):
     
+    '''Função utilizada para que sejam feitos os saques.
+    - A variável limite_saldo traz True quando o saldo for maior que o saque;
+    - A variável limite_saque traz True quando o saque for menor que o limite disponível para saque;
+    - A varável limite_qtde_saque traz True quando a quantidade de saques efetuados for menor que o limite de saques possível'''
+
     limite_saldo = saldo >= saque  # True para realizar o saque
     limite_saque = saque <= limite  # True para realizar o saque
     limite_qtde_saque = numero_saques < num_limite_saque  # True para realizar o saque
@@ -54,7 +59,6 @@ def sacar( *, saque, saldo, extrato, limite, numero_saques, num_limite_saque ):
     elif saque > 0:
         saldo -= saque
         extrato += "\t- R$ " + str(f'{saque:.2f}\n')
-#        numero_saques += 1
         print(f"Saque de R${saque:.2f} realizado!")
     
     else:
@@ -63,11 +67,17 @@ def sacar( *, saque, saldo, extrato, limite, numero_saques, num_limite_saque ):
     return saldo , extrato
 
 def gerar_extrato(saldo , / , * , extrato):
+    
+    '''Função utilizada para que seja visualizado o extrato com as movimentações de Depósitos e Saques. Traz também o total de Saldo Disponível.'''
+
     print(extrato)
     print(f'Seu saldo atual é de R$ {saldo:.2f}')
     print("=====================================")
 
 def criar_usuario(dados_usuario):
+
+    '''Função para a criação de usuários dentro do sistema. Inicia-se com a solicitação da identificação do cliente. Com essa informação, através de uma outra função verificamos se este dado de identificação do cliente já consta na base.'''
+
     cpf = input("Informe o CPF do usuario (somente números):")
 
     # Checagem do CPF para ver se já existe
@@ -81,6 +91,7 @@ def criar_usuario(dados_usuario):
     data_nasc = str(input("Informe a data de nascimento (DD/MM/AAAA):"))
     endereco = str(input("Informe o endereço do usuario:"))
 
+    # Adicionando as informações na lista com os Dados dos Usuários
     dados_usuario.append({
                 "nome" : nome ,
                 "data_nasc" : data_nasc ,
@@ -90,26 +101,39 @@ def criar_usuario(dados_usuario):
     print("Usuário criado com sucesso.")
 
 def consulta_cpf( cpf , dados_usuario):
+    '''Função criada de apoio para as funções criar_usuário e criar_conta.'''
+    
     busca_cpf = [
         usuario for usuario in dados_usuario if usuario['cpf'] == cpf
         ]
     return busca_cpf[0] if busca_cpf else None
     
 def criar_conta(agencia, num_conta, dados_usuario):
+    
+    '''Através da utilização da função consulta_cpf, cria-se uma conta e a associa a determinado usuário.'''
+
     # Solicitando o CPF para vincular a um cliente existente
     cpf = input("Informe o CPF do usuario (somente números):")
     # Utilizando-se da função de consulta, capturamos o usuário associado ao CPF
     usuario = consulta_cpf(cpf , dados_usuario)
 
-    if usuario:
+    if usuario != '':
         print("Conta criada com sucesso.")
-        return {'agencia' : agencia , 'num_conta' : num_conta , "usuario" : usuario}
+        return {
+            'agencia' : agencia ,
+            'num_conta' : num_conta ,
+            "usuario" : usuario}
     
     print("Cliente não encotrado na base de dados!")
 
 def listar_contas(contas):
+    
+    '''Função criada para listar todas as contas que foram criadas pelo sistema'''
+
     for conta in contas:
-        print(conta)
+        print("Ag: " + conta['agencia'] +"    " + "C/C: " + str(conta['num_conta']))
+        print("Nome: " + conta['usuario']['nome'] +"    " + "CPF: " + conta['usuario']['cpf'])
+        print('\n')
 
 def main():
 
@@ -123,7 +147,7 @@ def main():
     numero_saques = 0
     dados_usuario= []
     contas = []
-
+    numero_contas = 1
 
     # Desenvolvimento da Inteligência Operacional do Sistema
 
@@ -169,11 +193,11 @@ def main():
     # Criação de Contas
         
         elif opcao == '5':
-            num_conta = len(contas) + 1
-            conta = criar_conta(AGENCIA , num_conta , dados_usuario )
+            conta = criar_conta(AGENCIA , numero_contas , dados_usuario )
 
-            if conta:
+            if conta != '':
                 contas.append(conta)
+                numero_contas += 1
 
     # Listas de Contas dos Usuários
 
@@ -182,6 +206,7 @@ def main():
 
         else:
             break
-   
 
+# Executando a função
 main()
+
