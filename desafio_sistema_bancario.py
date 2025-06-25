@@ -84,3 +84,5 @@ while True:
     
     else:
         print("Opção não disponível. Favor inserir com uma opção válida!")
+
+# %%
