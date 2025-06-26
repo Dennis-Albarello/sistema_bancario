@@ -14,6 +14,7 @@ def menu_de_opcoes():
             [4] Novo Usuário
             [5] Nova Conta
             [6] Contas de Usuários
+            [7] Clientes Cadastrados
             [0] Sair
 
     ######################################
@@ -83,13 +84,13 @@ def criar_usuario(dados_usuario):
     # Checagem do CPF para ver se já existe
     usuario = consulta_cpf(cpf , dados_usuario)
 
-    if usuario:
+    if usuario is not None:
         print("Usuário já existente para esse CPF informado.")
         return
 
-    nome = str(input("Informe o nome do usuario:"))
-    data_nasc = str(input("Informe a data de nascimento (DD/MM/AAAA):"))
-    endereco = str(input("Informe o endereço do usuario:"))
+    nome = str(input("Informe o nome do usuário:"))
+    data_nasc = str(input("Informe a data de nascimento do usuário (DD/MM/AAAA):"))
+    endereco = str(input("Informe o endereço do usuário:"))
 
     # Adicionando as informações na lista com os Dados dos Usuários
     dados_usuario.append({
@@ -106,7 +107,7 @@ def consulta_cpf( cpf , dados_usuario):
     busca_cpf = [
         usuario for usuario in dados_usuario if usuario['cpf'] == cpf
         ]
-    return busca_cpf[0] if busca_cpf else None
+    return busca_cpf[0] if busca_cpf != [] else None
     
 def criar_conta(agencia, num_conta, dados_usuario):
     
@@ -135,7 +136,19 @@ def listar_contas(contas):
         print("Nome: " + conta['usuario']['nome'] +"    " + "CPF: " + conta['usuario']['cpf'])
         print('\n')
 
-def main():
+def listar_usuarios(contas):
+    
+    '''Função criada para listar todas os clientes que estão cadastrados no sistema ordenados de acordo com as contas mais recentes criadas.'''
+
+    # Criando variável de contador com o tamanho da lista contas criada
+    contador = len(contas) 
+
+    while contador > 0:
+        
+        print("CPF: " + contas[contador - 1]['usuario']['cpf'] + "\tNome: " + contas[contador - 1]['usuario']['nome'] + "\tC/C: " + str(contas[contador - 1]['num_conta']))
+        contador -= 1
+
+def executar_sistema():
 
     # Definindo as variáveis
 
@@ -204,9 +217,14 @@ def main():
         elif opcao == '6':
             listar_contas(contas)
 
+    # Listas de Clientes Cadastrados
+
+        elif opcao == '7':
+            listar_usuarios(contas)
+
         else:
             break
 
-# Executando a função
-main()
+# Executando o Sistema
+executar_sistema()
 
