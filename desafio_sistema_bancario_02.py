@@ -13,8 +13,7 @@ def menu_de_opcoes():
             [3] Saque
             [4] Novo Usuário
             [5] Nova Conta
-            [6] Contas de Usuários
-            [7] Clientes Cadastrados
+            [6] Clientes Cadastrados
             [0] Sair
 
     ######################################
@@ -127,26 +126,20 @@ def criar_conta(agencia, num_conta, dados_usuario):
     
     print("Cliente não encotrado na base de dados!")
 
-def listar_contas(contas):
-    
-    '''Função criada para listar todas as contas que foram criadas pelo sistema'''
-
-    for conta in contas:
-        print("Ag: " + conta['agencia'] +"    " + "C/C: " + str(conta['num_conta']))
-        print("Nome: " + conta['usuario']['nome'] +"    " + "CPF: " + conta['usuario']['cpf'])
-        print('\n')
-
 def listar_usuarios(contas):
     
-    '''Função criada para listar todas os clientes que estão cadastrados no sistema ordenados de acordo com as contas mais recentes criadas.'''
+    '''Função criada para listar todos os clientes que estão cadastrados no sistema e também cada uma de suas contas cadastradas.'''
 
-    # Criando variável de contador com o tamanho da lista contas criada
-    contador = len(contas) 
+    # Criando variável com a lista dos clientes ordenados pelo CPF
+    lista_usuarios = sorted(contas , key=lambda x: x['usuario']['cpf'])
 
-    while contador > 0:
-        
-        print("CPF: " + contas[contador - 1]['usuario']['cpf'] + "\tNome: " + contas[contador - 1]['usuario']['nome'] + "\tC/C: " + str(contas[contador - 1]['num_conta']))
-        contador -= 1
+    contador = 0
+    tamanho_lista = len(contas)
+
+    while contador < tamanho_lista:
+        for i in lista_usuarios:
+            print("Nome: " + lista_usuarios[contador]['usuario']['nome'] + "\tCPF: " + lista_usuarios[contador]['usuario']['cpf'] + "\tC/C: " + str(lista_usuarios[contador]['num_conta']))
+            contador += 1
 
 def executar_sistema():
 
@@ -212,14 +205,9 @@ def executar_sistema():
                 contas.append(conta)
                 numero_contas += 1
 
-    # Listas de Contas dos Usuários
-
-        elif opcao == '6':
-            listar_contas(contas)
-
     # Listas de Clientes Cadastrados
 
-        elif opcao == '7':
+        elif opcao == '6':
             listar_usuarios(contas)
 
         else:
