@@ -44,12 +44,12 @@ class Conta:
 
     # Função para realizar Depósito na Conta
     def depositar(self, deposito):
-            if deposito > 0:
-                self._saldo += deposito
-                print(f'Depósito de R${deposito:.2f} realizado!')
+        if deposito > 0:
+            self._saldo += deposito
+            print(f'Depósito de R${deposito:.2f} realizado!')
                 
-            else:
-                print("Valor informado não é válido para essa operação!")
+        else:
+            print("Valor informado não é válido para essa operação!")
                 
     # Função para realizar Saque na Conta
     def sacar(self, saque):
